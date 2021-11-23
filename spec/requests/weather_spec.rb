@@ -1,8 +1,8 @@
-# frozen_string_literal: true
+require 'rails_helper'
 
-RSpec.describe 'Weather Data', type: :request do
-  path = File.join(File.expand_path('..', __dir__), 'spec', 'helpers')
-  files = %w[http00.txt http01.txt http02.txt http03.txt http04.txt http05.txt]
+RSpec.describe "Weathers", type: :request do
+  path = File.join(File.expand_path('..', __dir__), 'requests', 'helpers')
+  files = %w[http00.txt]
   cnt = 1
 
   files.each do |file|
@@ -12,13 +12,13 @@ RSpec.describe 'Weather Data', type: :request do
       data.each_line do |row|
         req = JSON.parse(row)
         url = 'http://localhost:3000'
-        header = req['request']['header']
+        # header = req['request']['header']
         body = req['request']['body']
 
         case req['request']['method']
         when 'GET'
           url += req['request']['url']
-          get url, body
+          get url
           body = JSON.parse(response.body)
 
           expect(response.status).to eq(req['response']['status_code'])
@@ -28,18 +28,18 @@ RSpec.describe 'Weather Data', type: :request do
 
         when 'POST'
           url += req['request']['url']
-          post(url, body)
+          post url, params: { weather: body }
           body = JSON.parse(response.body)
           expect(response.status).to eq(req['response']['status_code'])
 
         when 'DELETE'
           url += req['request']['url']
-          delete(url, body)
+          delete url
           expect(response.status).to eq(req['response']['status_code'])
 
         when 'PUT'
           url += req['request']['url']
-          put(url, body)
+          put url, params: { weather: body }
           body = JSON.parse(response.body)
           expect(response.status).to eq(req['response']['status_code'])
           expect(body).to eq(req['response']['body'])

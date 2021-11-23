@@ -85,7 +85,7 @@ class WeatherController < ApplicationController
     location.temperatures.each do |registry|
       results << {
         id: registry.weather_id,
-        date: registry.date,
+        date: registry.date.to_date.strftime("%Y-%m-%d"),
         location: {
           lat: location.lat,
           lon: location.lon,
