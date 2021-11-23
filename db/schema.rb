@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,25 +12,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_21_231655) do
-
+ActiveRecord::Schema.define(version: 20_211_122_233_133) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "locations", force: :cascade do |t|
-    t.float "lat", null: false
-    t.float "lon", null: false
-    t.string "city", null: false
-    t.string "state", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+  create_table 'locations', force: :cascade do |t|
+    t.float 'lat', null: false
+    t.float 'lon', null: false
+    t.string 'city', null: false
+    t.string 'state', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
   end
 
-  create_table "temperatures", force: :cascade do |t|
-    t.integer "temperatures", default: [], null: false, array: true
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "weather_id"
+  create_table 'temperatures', force: :cascade do |t|
+    t.integer 'temperatures', default: [], null: false, array: true
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.integer 'weather_id'
+    t.datetime 'date'
+    t.bigint 'location_id'
+    t.index ['location_id'], name: 'index_temperatures_on_location_id'
   end
 
+  add_foreign_key 'temperatures', 'locations', on_delete: :cascade
 end

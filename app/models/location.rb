@@ -26,4 +26,6 @@ class Location < ApplicationRecord
   validates :lon, presence: true
   validates :lon, presence: true
   validates :lat, presence: true
+
+  has_many  :temperatures, dependent: :destroy
 end
